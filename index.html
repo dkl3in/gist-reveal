@@ -11,22 +11,8 @@
 
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
+                
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-
-    <style id='site_logo_css' type='text/css'>
-      .reveal #site-logo {
-        position:   fixed;
-        z-index:    30;
-        bottom:     10px;
-        left:       10px;
-        padding:    0.25%;
-        max-width:  130px;
-        outline:    none;
-        box-shadow: none;
-        background: transparent;
-      }
-    </style>
 
 		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
                 <link rel="alternate" type="text/html" href="?print-pdf" media='print'>
@@ -54,14 +40,13 @@
 	</head>
 
 	<body>
-
+		
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-      {{slides}}
-      </div>
-      <a id='logo-link' href="{{template_logo_url}}"><img id="site-logo" alt="{{template_logo_text}}" src="{{template_logo_img}}" /></a>
+      			{{slides}}
+      			</div>
 
 		</div>
 
