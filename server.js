@@ -46,8 +46,8 @@ var sanitize = function(slideshow_content){
 })}
 var config = cc({
   REVEAL_SOCKET_SECRET : process.env.REVEAL_SOCKET_SECRET || (Math.floor(Math.random()*1000).toString() + new Date().getTime().toString())
-, DEFAULT_GIST : process.env.DEFAULT_GIST || 'af84d40e58c5c2a908dd'
-, REVEAL_THEME : process.env.REVEAL_THEME || '60e54843de11a545897e'
+, DEFAULT_GIST : process.env.DEFAULT_GIST || 'bb995c46c662ef0ddd5013be266d06b2'
+, REVEAL_THEME : process.env.REVEAL_THEME || 'bb995c46c662ef0ddd5013be266d06b2'
 , GIST_THEMES : process.env.GIST_THEMES || "true"
 , GH_CLIENT_ID : process.env.GH_CLIENT_ID
 , GH_CLIENT_SECRET : process.env.GH_CLIENT_SECRET
@@ -55,7 +55,7 @@ var config = cc({
 , REVEAL_WEB_HOST : process.env.REVEAL_WEB_HOST || process.env.OPENSHIFT_APP_DNS || 'localhost:8080'
 , TEMPLATE_LOGO_TEXT : process.env.TEMPLATE_LOGO_TEXT || "Launch on OpenShift"
 , TEMPLATE_LOGO_IMG : process.env.TEMPLATE_LOGO_IMG || "img/launchbutton.svg"
-, TEMPLATE_LOGO_URL : process.env.TEMPLATE_LOGO_URL || "https://openshift.redhat.com/app/console/application_types/custom?name=slides&initial_git_url=https%3A%2F%2Fgithub.com/ryanj/gist-reveal.git&cartridges[]=nodejs-0.10"
+, TEMPLATE_LOGO_URL : process.env.TEMPLATE_LOGO_URL || "https://openshift.redhat.com/app/console/application_types/custom?name=slides&initial_git_url=https%3A%2F%2Fgithub.com/dkl3in/gist-reveal.git&cartridges[]=nodejs-0.10"
 });
 var createHash = function(secret) {
 	var cipher = crypto.createCipher('blowfish', secret);
@@ -63,11 +63,11 @@ var createHash = function(secret) {
 };
 var ga_tracker_html = function(tracker_id){
   if(typeof(tracker_id) !== 'undefined'){
-    return "<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n" + 
-    "(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n" + 
-    "m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n" + 
-    "})(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n" + 
-    "ga('create', '"+tracker_id+"', 'auto');\n" + 
+    return "<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n" +
+    "(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n" +
+    "m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n" +
+    "})(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n" +
+    "ga('create', '"+tracker_id+"', 'auto');\n" +
     "ga('send', 'pageview');</script>";
   }else{
     return "";
@@ -174,13 +174,13 @@ var get_slides = function(req, res, next) {
 var get_gist = function(gist_id, cb) {
   var gist_api_url = "https://api.github.com/gists/";
   // hits rate limits quickly when auth is omitted
-  var authentication = ""; 
+  var authentication = "";
   if( typeof config.get('GH_CLIENT_SECRET') !== "undefined" && config.get('GH_CLIENT_SECRET') !== "" &&
       typeof config.get('GH_CLIENT_ID')     !== "undefined" && config.get('GH_CLIENT_ID') !== "" ){
     authentication = "?client_id="+config.get('GH_CLIENT_ID')+"&client_secret="+config.get('GH_CLIENT_SECRET');
   }
   request({
-    url: gist_api_url + gist_id + authentication, 
+    url: gist_api_url + gist_id + authentication,
     headers: {'User-Agent': 'request'}
   }, cb)
 }
@@ -192,15 +192,15 @@ app.get("/token", function(req,res) {
 
 io.sockets.on('connection', function(socket) {
   var checkAndReflect = function(data){
-    if (typeof data.secret == 'undefined' || data.secret == null || data.secret === '') {console.log('Discarding mismatched socket data');return;} 
+    if (typeof data.secret == 'undefined' || data.secret == null || data.secret === '') {console.log('Discarding mismatched socket data');return;}
     if (createHash(data.secret) === data.socketId) {
-      data.secret = null; 
+      data.secret = null;
       socket.broadcast.emit(data.socketId, data);
       console.dir(data);
     }else{
       console.log('Discarding mismatched socket data:');
       console.dir(data);
-    };      
+    };
   };
 	socket.on('slidechanged', checkAndReflect);
   socket.on('navigation', checkAndReflect);
@@ -231,7 +231,7 @@ app.get("/:gist_id", get_slides);
 // Actually listen
 server.listen(config.get('PORT'), config.get('IP'), function(){
   get_theme(config.get('REVEAL_THEME'), function(){
-    //if the default theme is a gist_id, prime the cache 
+    //if the default theme is a gist_id, prime the cache
   })
 });
 

@@ -1,12 +1,17 @@
-FROM fedora:21
+FROM publicisworldwide/node:latest
 
-RUN yum -y update && yum clean all
-RUN yum -y install npm git bzip2 curl build-essential ca-certificates && yum clean all
+USER $CONTAINER_USER
 
-WORKDIR /app
-ADD package.json /app/
+# Create app directory
+RUN mkdir -p /home/$CONTAINER_USER/app
+WORKDIR /home/$CONTAINER_USER/app
+
+# Install app dependencies
+ADD package.json /home/$CONTAINER_USER/app
 RUN npm install --production
-ADD . /app/
+
+# Bundle app source
+ADD . /home/$CONTAINER_USER/app
+
 EXPOSE 8080
-CMD []
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT [ "npm", "start" ]

@@ -25,12 +25,12 @@
         },
         {
             "description": "Default Gist content for the base path",
-            "value": "af84d40e58c5c2a908dd",
+            "value": "bb995c46c662ef0ddd5013be266d06b2",
             "name": "DEFAULT_GIST"
         },
         {
             "description": "Default Reveal.js theme",
-            "value": "60e54843de11a545897e",
+            "value": "bb995c46c662ef0ddd5013be266d06b2",
             "name": "REVEAL_THEME"
         },
         {
@@ -52,7 +52,7 @@
                 }
             },
             "spec": {
-                "dockerImageRepository": "ryanj/gist-reveal:latest"
+                "dockerImageRepository": "dkl3in/gist-reveal:latest"
             },
             "status": {
                 "dockerImageRepository": ""
@@ -106,7 +106,7 @@
                         "containers": [
                             {
                                 "name": "gist-reveal",
-                                "image": "ryanj/gist-reveal:latest",
+                                "image": "dkl3in/gist-reveal:latest",
                                 "ports": [
                                     {
                                         "containerPort": 8080,
